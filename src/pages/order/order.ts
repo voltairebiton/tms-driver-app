@@ -97,31 +97,7 @@ export class OrderPage {
     console.log(this.order);
 
     if (this.order.pickups[index].status == 3) {
-      let alert = this.alertCtrl.create();
-      alert.setTitle('Comment');
-      alert.addInput({type: 'input'});
-      alert.addButton('Cancel');
-      alert.addButton({
-        text: 'Submit',
-        handler: data => {
-          const comment = {
-            content: data[0],
-            poi: this.order.pickups[index].pickup_id,
-            sender: localStorage.getItem('id'),
-            date: new Date()
-          };
-
-          this.order.comments.unshift(comment);
-          this.orderProvider.updateOrders(this.order.id, this.order).then(
-            (data) => {
-              console.log('success');
-            }
-          ).catch((error) => {
-            console.log(error);
-          });
-        }
-      });
-      alert.present()
+      this.presentModal();
     } else {
       this.orderProvider.updateOrders(this.order.id, this.order).then(
         (data) => {
@@ -135,7 +111,7 @@ export class OrderPage {
   }
 
   presentModal() {
-    const modal = this.modalCtrl.create('CommentPage', {comments: this.order.comments});
+    const modal = this.modalCtrl.create('CommentPage', {order: this.order, comments: this.order.comments});
     modal.present();
   }
 }

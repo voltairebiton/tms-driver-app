@@ -31,7 +31,7 @@
         <div class="msg-detail">
           <div class="msg-info">
             <p>
-              {{ displayUserName(comment.sender) }}&nbsp;&nbsp;&nbsp;{{comment.date | date}}</p>
+              {{ displayUserName(comment.sender) }}&nbsp;&nbsp;&nbsp;{{comment.date | timestamp:random}}</p>
           </div>
           <div class="msg-content">
             <span class="triangle"></span>
@@ -50,9 +50,9 @@
       <!-- <button ion-button clear icon-only item-right (click)="switchEmojiPicker()"> -->
         <!-- <ion-icon name="md-happy"></ion-icon>
       </button> -->
-      <ion-textarea placeholder="Enter your comment">
+      <ion-textarea placeholder="Enter your comment" [(ngModel)]="comment">
       </ion-textarea>
-      <button ion-button clear icon-only item-right>
+      <button ion-button clear icon-only item-right (click)="postComment()" [disabled]="isPosting" >
         <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
       </button>
     </div>
