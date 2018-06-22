@@ -14,8 +14,6 @@ import { EquipmentProvider } from '../providers/equipment/equipment';
 import { TitleCasePipe } from '@angular/common';
 import { LoginPageModule } from '../pages/login/login.module';
 import { UserProvider } from '../providers/user/user';
-import { PipesModule } from '../pipes/pipes.module';
-
 
 @NgModule({
   declarations: [
@@ -25,8 +23,7 @@ import { PipesModule } from '../pipes/pipes.module';
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
-    LoginPageModule,
-    PipesModule
+    LoginPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
