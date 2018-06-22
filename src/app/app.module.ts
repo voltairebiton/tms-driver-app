@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { LoginPage } from '../pages/login/login';
 import { HttpClientModule } from '@angular/common/http';
 import { ObservableProvider } from '../providers/observable/observable';
 import { OrderProvider } from '../providers/order/order';

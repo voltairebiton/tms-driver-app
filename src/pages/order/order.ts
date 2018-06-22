@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Order } from '../../models/order';
-import { PoiProvider } from '../../providers/poi/poi';
 import { ObservableProvider } from '../../providers/observable/observable';
 import { Poi } from '../../models/poi';
 import { Equipment } from '../../models/equipment';
