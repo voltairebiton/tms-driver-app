@@ -22,6 +22,7 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
+    console.log('test');
     const authId = this.observableProvider.client$.authedId();
     if (!authId) {
       this.navCtrl.setRoot('LoginPage');

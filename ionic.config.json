@@ -1,6 +1,6 @@
 {
   "name": "tms-driver-app",
-  "app_id": "",
   "type": "ionic-angular",
-  "integrations": {}
+  "integrations": {},
+  "app_id": "a4a88a6f"
 }
