@@ -7,6 +7,7 @@ import { ObservableProvider } from '../../providers/observable/observable';
 import { ClientProvider } from '../../providers/client/client';
 import { EquipmentProvider } from '../../providers/equipment/equipment';
 import { Poi } from '../../models/poi';
+import { UserProvider } from '../../providers/user/user';
 @IonicPage()
 @Component({
   selector: 'page-home',
@@ -18,7 +19,8 @@ export class HomePage {
   pois: Poi[] = [];
 
   constructor(public navCtrl: NavController, private orderProvider: OrderProvider, private poiProvider: PoiProvider,
-    private observableProvider: ObservableProvider, private clientProvider: ClientProvider, private equipmentProvider: EquipmentProvider) {
+    private observableProvider: ObservableProvider, private clientProvider: ClientProvider, private equipmentProvider: EquipmentProvider,
+    private userProvider: UserProvider) {
   }
 
   ionViewDidLoad() {
@@ -30,6 +32,7 @@ export class HomePage {
       this.loadPois();
       this.loadEquipments();
       this.loadClients();
+      this.loadUsers();
       this.orderProvider.fetchOrders().then((data) => {
         this.orders = data;
       });
@@ -66,11 +69,19 @@ export class HomePage {
     );
   }
 
+  loadUsers() {
+    this.userProvider.getUsers().then(
+      (data) => {
+        this.observableProvider.users = data;
+      }
+    );
+  }
+
   displayPoiName(id) {
     if (this.pois.length > 0) {
       return this.pois.find(poi => poi.id === id).customer_name;
     } else {
-      return id;
+      return '';
     }
   }
 

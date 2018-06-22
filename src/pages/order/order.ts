@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { Order } from '../../models/order';
 import { ObservableProvider } from '../../providers/observable/observable';
 import { Poi } from '../../models/poi';
 import { Equipment } from '../../models/equipment';
 import { Client } from '../../models/client';
 import { OrderProvider } from '../../providers/order/order';
+import { CommentPage } from '../comment/comment';
 
 /**
  * Generated class for the OrderPage page.
@@ -29,7 +30,8 @@ export class OrderPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private observableProvider: ObservableProvider,
     private orderProvider: OrderProvider,
-    private alertCtrl: AlertController) {
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController) {
     this.observableProvider.pois$.subscribe(
       data => {
         if (data) {
@@ -130,5 +132,10 @@ export class OrderPage {
       });
     }
 
+  }
+
+  presentModal() {
+    const modal = this.modalCtrl.create('CommentPage', {comments: this.order.comments});
+    modal.present();
   }
 }

@@ -13,6 +13,7 @@ import { ClientProvider } from '../providers/client/client';
 import { EquipmentProvider } from '../providers/equipment/equipment';
 import { TitleCasePipe } from '@angular/common';
 import { LoginPageModule } from '../pages/login/login.module';
+import { UserProvider } from '../providers/user/user';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { LoginPageModule } from '../pages/login/login.module';
     PoiProvider,
     ClientProvider,
     EquipmentProvider,
+    UserProvider,
     TitleCasePipe
   ]
 })

@@ -6,6 +6,7 @@ import { Response } from '../../models/response';
 import { Poi } from '../../models/poi';
 import { Equipment } from '../../models/equipment';
 import { Client } from '../../models/client';
+import { User } from '../../models/model';
 
 /*
   Generated class for the ObservableProvider provider.
@@ -25,6 +26,7 @@ export class ObservableProvider {
   private _pois: BehaviorSubject<any> = new BehaviorSubject(null);
   private _equipments: BehaviorSubject<Equipment[]> = new BehaviorSubject(null);
   private _clients: BehaviorSubject<Client[]> = new BehaviorSubject(null);
+  private _users: BehaviorSubject<User[]> = new BehaviorSubject(null);
 
   constructor(public http: HttpClient) {
   }
@@ -62,6 +64,14 @@ export class ObservableProvider {
 
   set clients(value: Client[]) {
     this._clients.next(value);
+  }
+
+  get users$() {
+    return this._users.asObservable();
+  }
+
+  set users(value: User[]) {
+    this._users.next(value);
   }
 
   initStitch() {
