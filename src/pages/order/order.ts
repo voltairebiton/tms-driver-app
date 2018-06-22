@@ -97,7 +97,38 @@ export class OrderPage {
     console.log(this.order);
 
     if (this.order.pickups[index].status == 3) {
-      this.presentModal();
+      const confirm = this.alertCtrl.create({
+        title: 'Say something?',
+        message: 'Would you like to say something regarding this issue?',
+        buttons: [
+          {
+            text: 'No',
+            handler: () => {
+              this.orderProvider.updateOrders(this.order.id, this.order).then(
+                (data) => {
+                  console.log('success');
+                }
+              ).catch((error) => {
+                console.log(error);
+              });
+            }
+          },
+          {
+            text: 'Yes',
+            handler: () => {
+              this.orderProvider.updateOrders(this.order.id, this.order).then(
+                (data) => {
+                  console.log('success');
+                }
+              ).catch((error) => {
+                console.log(error);
+              });
+              this.presentModal();
+            }
+          }
+        ]
+      });
+      confirm.present();
     } else {
       this.orderProvider.updateOrders(this.order.id, this.order).then(
         (data) => {
