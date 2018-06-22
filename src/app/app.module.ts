@@ -12,19 +12,22 @@ import { PoiProvider } from '../providers/poi/poi';
 import { ClientProvider } from '../providers/client/client';
 import { EquipmentProvider } from '../providers/equipment/equipment';
 import { TitleCasePipe } from '@angular/common';
+import { LoginPageModule } from '../pages/login/login.module';
+
 
 @NgModule({
   declarations: [
-    MyApp
+    MyApp,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    LoginPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp
+    MyApp,
   ],
   providers: [
     StatusBar,
