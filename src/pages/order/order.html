@@ -1,0 +1,77 @@
+<!--
+  Generated template for the OrderPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title> Order {{ order.order_no }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list no-border *ngIf="order.pickups.length > 0">
+      <ion-list-header>
+        <b>Pick Up</b>
+      </ion-list-header>
+    
+      <ion-item *ngFor="let pickup of order.pickups; let i = index">
+        <ion-label>
+          {{ displayPoiName(pickup.pickup_id) }}
+        </ion-label>
+        <ion-select [(ngModel)]="pickup.status" interface="popover" (ionChange)="savePickupOrder(i)">
+          <ion-option [value]="1">In progress</ion-option>
+          <ion-option [value]="2">Done</ion-option>
+          <ion-option [value]="3">Issue</ion-option>
+        </ion-select>
+        <!-- <ion-icon name='body' item-start></ion-icon> -->
+      </ion-item>
+    </ion-list>
+    <ion-list *ngIf="order.dropoffs.length > 0">
+    
+      <ion-list-header>
+        <b>Drop Off</b>
+      </ion-list-header>
+    
+      <ion-item *ngFor="let drop of order.dropoffs;">
+        <!-- <ion-toggle checked="true"></ion-toggle> -->
+        <ion-label>
+          {{ displayPoiName(drop.drop_id) }}
+        </ion-label>
+        <ion-select [(ngModel)]="drop.status" interface="popover">
+          <ion-option value="1">In progress</ion-option>
+          <ion-option value="2">Done</ion-option>
+          <ion-option value="3">Issue</ion-option>
+        </ion-select>
+        <!-- <ion-icon name='brush' item-start></ion-icon> -->
+      </ion-item>
+    
+    
+    
+    </ion-list>
+    <ion-list no-border *ngIf="order.pickups.length > 0">
+      <ion-list-header>
+        Order Information
+      </ion-list-header>
+    
+      <!-- <ion-item>
+                <ion-icon name='person' item-start></ion-icon>
+                  {{ displayClientName(order.client_id) }}
+                <ion-note item-end>
+                  Client
+                </ion-note>
+            </ion-item> -->
+      <ion-item>
+        <ion-icon name='bus' item-start></ion-icon>
+        {{ displayTrailerName(order.trailer_id) }}
+        <ion-note item-end>
+          Trailer
+        </ion-note>
+      </ion-item>
+    </ion-list>
+  
+  </ion-content>

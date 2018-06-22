@@ -1,14 +1,19 @@
 <ion-header>
   <ion-navbar>
+    <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>
-      Ionic Blank
+      Orders
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-list>
+    <button ion-item *ngFor="let order of orders" (click)="viewOrder(order)">
+      <!-- {{ order.order_no }} -->
+      {{ displayPoiName(order.pickups[0].pickup_id) | titlecase  }} > {{ displayPoiName(order.dropoffs[order.dropoffs.length - 1].drop_id) | titlecase }}
+    </button>  
+  </ion-list>
 </ion-content>

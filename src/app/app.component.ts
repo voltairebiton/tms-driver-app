@@ -1,22 +1,53 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Platform, MenuController, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { LoginPage } from '../pages/login/login';
+import { ObservableProvider } from '../providers/observable/observable';
 import { HomePage } from '../pages/home/home';
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
-  rootPage:any = HomePage;
+export class MyApp implements AfterViewInit {
+  @ViewChild(Nav) nav: Nav;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-    platform.ready().then(() => {
+  rootPage:any = LoginPage;
+  pages: Array<{title: string, component: any}>;
+
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private observableProvider: ObservableProvider,
+    public menu: MenuController) {
+    this.initializeApp();
+
+    this.pages = [
+      { title: 'Home', component: HomePage },
+      { title: 'Logout', component: LoginPage }
+    ];
+  }
+
+  initializeApp() {
+    this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
     });
   }
+
+  openPage(page) {
+    // close the menu when clicking a link from the menu
+    this.menu.close();
+    // navigate to the new page if it is not the current page
+    if ( (page.title).toLowerCase()  == 'logout') {
+      this.observableProvider.stitchLogout();
+      localStorage.clear();
+    }
+    this.nav.setRoot(page.component);
+  }
+
+  ngAfterViewInit() {
+    this.observableProvider.initStitch();
+  }
+  
 }
 
