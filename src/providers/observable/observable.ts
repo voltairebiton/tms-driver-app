@@ -95,11 +95,20 @@ export class ObservableProvider {
     ).then((data) => {
       if (data[0].type.toLowerCase() == 'dispatcher') {
         response.error = 'You do not have access to this app';
-      } else if (data[0].enable) {
+      } else if(data[0].type.toLowerCase() == 'driver') {
+        response.data = data[0];
+        return this.db.collection('drivers').find({id: data[0].id}).execute();
+      } else {
+        response.data = data[0];
+        return [{enable: true}];
+      }
+      
+    }).then((data) => {
+      if (!data[0].enable) {
         response.error = 'Your account is disabled. Contact your company for assistance';
+        response.data = [];
       } else {
         response.success = true;
-        response.data = data[0];
       }
     }).catch((err) => {
       console.log('connect err', err);
