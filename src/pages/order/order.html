@@ -42,7 +42,7 @@
         <ion-label>
           {{ displayPoiName(drop.drop_id) }}
         </ion-label>
-        <ion-select [(ngModel)]="drop.status" interface="popover">
+        <ion-select [(ngModel)]="drop.status" interface="popover" (ionChange)="saveDropOrder(i)">
           <ion-option value="1">In progress</ion-option>
           <ion-option value="2">Done</ion-option>
           <ion-option value="3">Issue</ion-option>

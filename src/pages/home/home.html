@@ -16,7 +16,7 @@
       {{ displayPoiName(order.pickups[0].pickup_id) | titlecase  }} > {{ displayPoiName(order.dropoffs[order.dropoffs.length - 1].drop_id) | titlecase }}
     </button>  
   </ion-list>
-  <ion-card *ngIf="orders.length == 0">
+  <ion-card *ngIf="orders.length == 0 && !isLoading">
     <ion-card-content>
       <ion-icon name="sad"></ion-icon> You have no orders assigned
     </ion-card-content>

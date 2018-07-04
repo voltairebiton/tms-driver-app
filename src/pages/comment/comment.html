@@ -19,7 +19,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding #content>
     <div class="message-wrap">
   
       <div *ngFor="let comment of comments"
@@ -50,9 +50,9 @@
       <!-- <button ion-button clear icon-only item-right (click)="switchEmojiPicker()"> -->
         <!-- <ion-icon name="md-happy"></ion-icon>
       </button> -->
-      <ion-textarea placeholder="Enter your comment" [(ngModel)]="comment">
+      <ion-textarea placeholder="Enter your comment" [(ngModel)]="comment" (keyup.enter)="postComment()">
       </ion-textarea>
-      <button ion-button clear icon-only item-right (click)="postComment()" [disabled]="isPosting" >
+      <button ion-button clear icon-only item-right (click)="postComment()"  [disabled]="isPosting" >
         <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
       </button>
     </div>

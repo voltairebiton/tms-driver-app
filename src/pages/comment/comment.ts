@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ObservableProvider } from '../../providers/observable/observable';
 import { User } from '../../models/model';
@@ -18,6 +18,7 @@ import { OrderProvider } from '../../providers/order/order';
   templateUrl: 'comment.html',
 })
 export class CommentPage {
+  @ViewChild('content') content:any;
   comments: any = [];
   users: User[] = [];
   order: Order;
@@ -29,7 +30,7 @@ export class CommentPage {
   random: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private observableProvider: ObservableProvider,
     private viewCtrl: ViewController, private orderProvider: OrderProvider) {
-    this.comments = this.navParams.data.comments;
+    this.comments = this.navParams.data.comments.slice().reverse();
     this.order = this.navParams.data.order;
     this.observableProvider.users$.subscribe(
       data => {
@@ -43,6 +44,9 @@ export class CommentPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CommentPage');
+    setTimeout(() => {
+      this.content.scrollToBottom(300);
+   }, 200);
   }
 
   displayUserName(id) {
@@ -65,6 +69,7 @@ export class CommentPage {
   }
 
   postComment() {
+
     this.random = Math.random();
     this.isPosting = true;
     const comment = {
@@ -72,13 +77,16 @@ export class CommentPage {
       sender: localStorage.getItem('id'),
       date: new Date()
     };
-
+    this.comment = '';
     this.order.comments.unshift(comment);
-    this.comments = this.order.comments;
+    this.comments = this.order.comments.slice().reverse();
+    setTimeout(() => {
+      this.content.scrollToBottom(300);
+   }, 200);
     this.orderProvider.updateOrders(this.order.id, this.order).then(
       (data) => {
         console.log('success');
-        this.comment = '';
+
         this.isPosting = false;
       }
     ).catch((error) => {
