@@ -6,7 +6,6 @@ import { Poi } from '../../models/poi';
 import { Equipment } from '../../models/equipment';
 import { Client } from '../../models/client';
 import { OrderProvider } from '../../providers/order/order';
-import { CommentPage } from '../comment/comment';
 
 /**
  * Generated class for the OrderPage page.

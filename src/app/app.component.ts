@@ -6,6 +6,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 import { ObservableProvider } from '../providers/observable/observable';
 import { HomePage } from '../pages/home/home';
+
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 @Component({
   templateUrl: 'app.html'
 })
@@ -16,7 +18,7 @@ export class MyApp implements AfterViewInit {
   pages: Array<{title: string, component: any}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private observableProvider: ObservableProvider,
-    public menu: MenuController) {
+    public menu: MenuController, private push: Push) {
     this.initializeApp();
 
     this.pages = [
@@ -31,6 +33,10 @@ export class MyApp implements AfterViewInit {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      setTimeout(() => {
+        this.pushSetup();
+      }, 1000);
+
     });
   }
 
@@ -48,6 +54,35 @@ export class MyApp implements AfterViewInit {
   ngAfterViewInit() {
     this.observableProvider.initStitch();
   }
-  
+
+  pushSetup() {
+    const options: PushOptions = {
+      android: {
+        senderID: '944375263748'
+      },
+      ios: {
+          alert: 'true',
+          badge: true,
+          sound: 'false'
+      },
+      windows: {},
+      browser: {
+          pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+      }
+    };
+
+    const pushObject: PushObject = this.push.init(options);
+
+
+    pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+
+    pushObject.on('registration').subscribe((registration: any) => {
+      console.log('Device registered', registration);
+      localStorage.setItem('token', registration.registrationId);
+    });
+
+    pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+  }
+
 }
 

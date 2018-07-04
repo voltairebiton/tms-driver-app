@@ -14,6 +14,7 @@ import { EquipmentProvider } from '../providers/equipment/equipment';
 import { TitleCasePipe } from '@angular/common';
 import { LoginPageModule } from '../pages/login/login.module';
 import { UserProvider } from '../providers/user/user';
+import { Push } from '@ionic-native/push';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { UserProvider } from '../providers/user/user';
     ClientProvider,
     EquipmentProvider,
     UserProvider,
-    TitleCasePipe
+    TitleCasePipe,
+    Push
   ]
 })
 export class AppModule {}
