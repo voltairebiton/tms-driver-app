@@ -17,7 +17,7 @@ export class HomePage {
   
   orders: Order[] = [];
   pois: Poi[] = [];
-
+  isLoading = true;
   constructor(public navCtrl: NavController, private orderProvider: OrderProvider, private poiProvider: PoiProvider,
     private observableProvider: ObservableProvider, private clientProvider: ClientProvider, private equipmentProvider: EquipmentProvider,
     private userProvider: UserProvider) {
@@ -35,6 +35,7 @@ export class HomePage {
       this.loadUsers();
       this.orderProvider.fetchOrders().then((data) => {
         this.orders = data;
+        this.isLoading = false;
       });
     }
 
