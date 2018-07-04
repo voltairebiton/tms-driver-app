@@ -108,8 +108,17 @@ export class ObservableProvider {
         response.error = 'Your account is disabled. Contact your company for assistance';
         response.data = [];
       } else {
-        response.success = true;
+        const devices = response.data.devices;
+        const token = localStorage.getItem('token');
+        if (!devices.find(device => device == token)){
+          devices.push(token);
+          response.data.devices = devices;
+        } 
+        console.log(response.data);
+        return this.db.collection('users').updateOne({id: response.data.id}, response.data );
       }
+    }).then(() => {
+      response.success = true;
     }).catch((err) => {
       console.log('connect err', err);
       response.success = false;
