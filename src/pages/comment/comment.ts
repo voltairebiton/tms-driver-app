@@ -4,6 +4,9 @@ import { ObservableProvider } from '../../providers/observable/observable';
 import { User } from '../../models/model';
 import { Order } from '../../models/order';
 import { OrderProvider } from '../../providers/order/order';
+import { Socket } from 'ng-socket-io';
+import { NotificationProvider } from '../../providers/notification/notification';
+import { Notification } from '../../models/notification';
 
 /**
  * Generated class for the CommentPage page.
@@ -29,7 +32,8 @@ export class CommentPage {
   isPosting: boolean;
   random: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private observableProvider: ObservableProvider,
-    private viewCtrl: ViewController, private orderProvider: OrderProvider) {
+    private viewCtrl: ViewController, private orderProvider: OrderProvider, private socket: Socket,
+    private notificationProvider: NotificationProvider) {
     this.comments = this.navParams.data.comments.slice().reverse();
     this.order = this.navParams.data.order;
     this.observableProvider.users$.subscribe(
@@ -43,6 +47,10 @@ export class CommentPage {
   }
 
   ionViewDidLoad() {
+    this.socket.connect();
+    this.removeSocketListener();
+    this.addSocketListener();
+
     console.log('ionViewDidLoad CommentPage');
     setTimeout(() => {
       this.content.scrollToBottom(300);
@@ -86,12 +94,36 @@ export class CommentPage {
     this.orderProvider.updateOrders(this.order.id, this.order).then(
       (data) => {
         console.log('success');
-
         this.isPosting = false;
+        const notification: Notification = {
+          from: this.currentId,
+          type: 'comment',
+          title: 'New comment',
+          body: comment.content,
+          user_id: this.order.dispatcher,
+          source_id: this.order.id,
+          date_created: new Date
+        }
+        return this.notificationProvider.createNotification(notification);
       }
-    ).catch((error) => {
+    ).then((response) => {
+      if (response) {
+        this.socket.emit('send_notification', this.order.dispatcher);
+      }
+    }).catch((error) => {
       console.log(error);
       this.isPosting = false;
     });
   }
+
+  addSocketListener() {
+    this.socket.on('connect', (res) => {
+      this.socket.emit('connect_user', this.currentId);
+    });
+  }
+
+  removeSocketListener() {
+    this.socket.removeListener('connect');
+  }
+
 }

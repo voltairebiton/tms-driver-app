@@ -15,7 +15,9 @@ import { TitleCasePipe } from '@angular/common';
 import { LoginPageModule } from '../pages/login/login.module';
 import { UserProvider } from '../providers/user/user';
 import { Push } from '@ionic-native/push';
-
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+import { NotificationProvider } from '../providers/notification/notification';
+const config: SocketIoConfig = { url: 'http://localhost:4300', options: {} };
 @NgModule({
   declarations: [
     MyApp,
@@ -24,7 +26,8 @@ import { Push } from '@ionic-native/push';
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
-    LoginPageModule
+    LoginPageModule,
+    SocketIoModule.forRoot(config)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -41,7 +44,8 @@ import { Push } from '@ionic-native/push';
     EquipmentProvider,
     UserProvider,
     TitleCasePipe,
-    Push
+    Push,
+    NotificationProvider
   ]
 })
 export class AppModule {}
