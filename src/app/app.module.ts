@@ -17,7 +17,7 @@ import { UserProvider } from '../providers/user/user';
 import { Push } from '@ionic-native/push';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { NotificationProvider } from '../providers/notification/notification';
-const config: SocketIoConfig = { url: 'http://localhost:4300', options: {} };
+const config: SocketIoConfig = { url: 'https://com-tms-5-1.herokuapp.com', options: {} };
 @NgModule({
   declarations: [
     MyApp,
