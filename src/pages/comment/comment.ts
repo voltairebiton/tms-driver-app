@@ -32,8 +32,8 @@ export class CommentPage {
   isPosting: boolean;
   random: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private observableProvider: ObservableProvider,
-    private viewCtrl: ViewController, private orderProvider: OrderProvider, private socket: Socket,
-    private notificationProvider: NotificationProvider) {
+    private viewCtrl: ViewController, private socket: Socket,
+    private notificationProvider: NotificationProvider, private orderProvider: OrderProvider) {
     this.comments = this.navParams.data.comments.slice().reverse();
     this.order = this.navParams.data.order;
     this.observableProvider.users$.subscribe(
@@ -121,10 +121,22 @@ export class CommentPage {
     this.socket.on('connect', (res) => {
       this.socket.emit('connect_user', this.currentId);
     });
+    this.socket.on('notification-' + this.currentId, () => {
+      this.fetchOrderById();
+    });
   }
 
   removeSocketListener() {
     this.socket.removeListener('connect');
+  }
+
+  fetchOrderById() {
+    this.orderProvider.fetchOrderById(this.order.id).then(
+      (data) => {
+        this.order = data;
+        this.comments = this.order.comments.slice().reverse();
+      }
+    );
   }
 
 }

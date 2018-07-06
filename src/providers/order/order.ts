@@ -38,6 +38,20 @@ export class OrderProvider {
     }).catch((err) => console.log('connect err', err));
   }
 
+  
+  fetchOrderById(id):  Promise<Order> {
+    const query = { id: id };
+    return this.db.collection('orders').find(query).limit(1).execute().then((data) => {
+      console.log(data);
+      const orders = data.map((order) => {
+        delete order['_id'];
+        return order;
+      });
+
+      return orders[0];
+    }).catch((err) => console.log('connect err', err));
+  }
+
   updateOrders(id, data): Promise<Order> {
     return this.db.collection('orders').updateOne({id: id}, data)
     .then((response)=> {
