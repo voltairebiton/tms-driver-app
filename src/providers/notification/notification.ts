@@ -41,7 +41,7 @@ export class NotificationProvider {
   }
 
   updateNotification(id, data) {
-    return this.db.collection('notifications').updateOne({id: id}, data).execute();
+    return this.db.collection('notifications').updateOne({id: id}, data);
   }
 
 }
