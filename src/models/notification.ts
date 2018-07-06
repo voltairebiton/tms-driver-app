@@ -8,4 +8,5 @@ export interface Notification {
     user_id: string;
     source_id?: string;
     date_created?: Date;
+    seen?: boolean;
 }

@@ -102,7 +102,8 @@ export class CommentPage {
           body: comment.content,
           user_id: this.order.dispatcher,
           source_id: this.order.id,
-          date_created: new Date
+          date_created: new Date,
+          seen: false
         }
         return this.notificationProvider.createNotification(notification);
       }
