@@ -135,6 +135,9 @@ export class CommentPage {
       (data) => {
         this.order = data;
         this.comments = this.order.comments.slice().reverse();
+        setTimeout(() => {
+          this.content.scrollToBottom(300);
+        }, 200);
       }
     );
   }
