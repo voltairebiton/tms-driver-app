@@ -110,6 +110,7 @@ export class CommentPage {
     ).then((response) => {
       if (response) {
         this.socket.emit('send_notification', this.order.dispatcher);
+        this.socket.emit('send_comment', this.order.id);
       }
     }).catch((error) => {
       console.log(error);
@@ -121,7 +122,7 @@ export class CommentPage {
     this.socket.on('connect', (res) => {
       this.socket.emit('connect_user', this.currentId);
     });
-    this.socket.on('notification-' + this.currentId, () => {
+    this.socket.on('comment-' + this.order.id, () => {
       this.fetchOrderById();
     });
   }
