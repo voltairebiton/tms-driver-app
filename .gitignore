@@ -33,3 +33,6 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+app-release-unsigned.apk
+my-release-key.keystore
+tms-driver-app.apk
