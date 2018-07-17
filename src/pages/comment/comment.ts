@@ -34,7 +34,10 @@ export class CommentPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private observableProvider: ObservableProvider,
     private viewCtrl: ViewController, private socket: Socket,
     private notificationProvider: NotificationProvider, private orderProvider: OrderProvider) {
-    this.comments = this.navParams.data.comments.slice().reverse();
+    this.comments = this.navParams.data.comments;
+    this.comments.sort( (a, b) => {
+      return a.date - b.date;
+    });
     this.order = this.navParams.data.order;
     this.observableProvider.users$.subscribe(
       data => {
@@ -135,7 +138,11 @@ export class CommentPage {
     this.orderProvider.fetchOrderById(this.order.id).then(
       (data) => {
         this.order = data;
-        this.comments = this.order.comments.slice().reverse();
+        
+        this.comments = this.order.comments;
+        this.comments.sort( (a, b) => {
+          return a.date - b.date;
+        });
         setTimeout(() => {
           this.content.scrollToBottom(300);
         }, 200);
