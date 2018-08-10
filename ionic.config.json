@@ -1,8 +1,8 @@
 {
   "name": "tms-driver-app",
-  "type": "ionic-angular",
   "integrations": {
     "cordova": {}
   },
-  "app_id": "a4a88a6f"
+  "type": "ionic-angular",
+  "pro_id": "a4a88a6f"
 }

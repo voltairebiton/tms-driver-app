@@ -23,6 +23,17 @@ export class NotificationProvider {
     );
   }
 
+  fetchNotifications(id): Promise<Notification[]> {
+    return this.db.collection('notifications').find({user_id: id}).limit(100).execute().then((data) => {
+      const notifications = data.map((notification) => {
+        delete notification['_id'];
+        return notification;
+      });
+      return notifications;
+
+    }).catch((err) => console.log('connect err', err));
+  }
+
   createNotification(data: Notification): Promise<boolean> {
     return this.db.collection('notifications').insertOne(data)
     .then((response) => {
@@ -42,6 +53,14 @@ export class NotificationProvider {
 
   updateNotification(id, data) {
     return this.db.collection('notifications').updateOne({id: id}, data);
+  }
+
+  fetchTotalUnseenNotifications(id) {
+    return this.db.collection('notifications').count({user_id: id, seen: false});
+  }
+
+  setSeenNotifications(id) {
+    return this.db.collection('notifications').updateMany({user_id: id}, {$set: {'seen': true}});
   }
 
 }

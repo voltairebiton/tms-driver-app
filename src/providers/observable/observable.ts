@@ -7,6 +7,7 @@ import { Poi } from '../../models/poi';
 import { Equipment } from '../../models/equipment';
 import { Client } from '../../models/client';
 import { User } from '../../models/model';
+import { Notification } from '../../models/notification';
 
 /*
   Generated class for the ObservableProvider provider.
@@ -27,6 +28,7 @@ export class ObservableProvider {
   private _equipments: BehaviorSubject<Equipment[]> = new BehaviorSubject(null);
   private _clients: BehaviorSubject<Client[]> = new BehaviorSubject(null);
   private _users: BehaviorSubject<User[]> = new BehaviorSubject(null);
+  private _warnings: BehaviorSubject<Notification[]> = new BehaviorSubject(null);
 
   constructor(public http: HttpClient) {
   }
@@ -72,6 +74,14 @@ export class ObservableProvider {
 
   set users(value: User[]) {
     this._users.next(value);
+  }
+
+  get warnings$() {
+    return this._warnings.asObservable();
+  }
+
+  set warnings(value: Notification[]) {
+    this._warnings.next(value);
   }
 
   initStitch() {
@@ -130,7 +140,7 @@ export class ObservableProvider {
 
   stitchLogout() {
     this.client$.logout().then(() => {
-      console.log('successfullyed logged out stitch');
+      console.log('successfully logged out stitch');
       return false;
     }).catch((err) => {
       console.log('connect err', err);

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, IonicPage } from 'ionic-angular';
+import {  NavController, IonicPage, ModalController } from 'ionic-angular';
 import { OrderProvider } from '../../providers/order/order';
 import { Order } from '../../models/order';
 import { PoiProvider } from '../../providers/poi/poi';
@@ -8,6 +8,10 @@ import { ClientProvider } from '../../providers/client/client';
 import { EquipmentProvider } from '../../providers/equipment/equipment';
 import { Poi } from '../../models/poi';
 import { UserProvider } from '../../providers/user/user';
+import { NotificationProvider } from '../../providers/notification/notification';
+import { Notification } from '../../models/notification';
+import { Subscription } from '../../../node_modules/rxjs/Subscription';
+import { DriverProvider } from '../../providers/driver/driver';
 @IonicPage()
 @Component({
   selector: 'page-home',
@@ -18,9 +22,19 @@ export class HomePage {
   orders: Order[] = [];
   pois: Poi[] = [];
   isLoading = true;
+
+  id: string;
+  notifications: Notification[] = [];
+  warnings: Notification[] = [];
+  unSeenNotifications = 0;
+
+  subscriptions$: Subscription[] = [];
+
   constructor(public navCtrl: NavController, private orderProvider: OrderProvider, private poiProvider: PoiProvider,
     private observableProvider: ObservableProvider, private clientProvider: ClientProvider, private equipmentProvider: EquipmentProvider,
-    private userProvider: UserProvider) {
+    private userProvider: UserProvider, private modalCtrl: ModalController, private notificationProvider: NotificationProvider,
+    private driverProvider: DriverProvider) {
+      this.id = localStorage.getItem('id');
   }
 
   ionViewDidLoad() {
@@ -33,12 +47,30 @@ export class HomePage {
       this.loadEquipments();
       this.loadClients();
       this.loadUsers();
+      this.fetchNotifications();
+      this.fetchDriver();
       this.orderProvider.fetchOrders().then((data) => {
         this.orders = data;
         this.isLoading = false;
       });
-    }
 
+      this.subscriptions$.push(
+        this.observableProvider.warnings$.subscribe(
+          (data) => {
+            if (data) {
+              const total = data.length;
+              this.unSeenNotifications += total;
+              // console.log(this.warnings);
+              console.log(data);
+            }
+          }
+        )
+      );
+    }
+  }
+
+  ionViewDidLeave() {
+    this.subscriptions$.forEach(el => el.unsubscribe());
   }
 
   viewOrder(order: Order) {
@@ -86,4 +118,45 @@ export class HomePage {
     }
   }
 
+  showNotification() {
+    this.setSeenNotifications();
+    const modal = this.modalCtrl.create('NotificationPage', {notification: this.notifications});
+    modal.present();
+  }
+
+  fetchNotifications() {
+    this.notificationProvider.fetchTotalUnseenNotifications(this.id).then(
+      (data) => {
+        this.unSeenNotifications += data;
+      }
+    );
+
+    this.notificationProvider.fetchNotifications(this.id).then(
+      (data) => {
+        if (data) {
+          this.notifications = data;
+        }
+      }
+    );
+  }
+
+  setSeenNotifications() {
+    this.notificationProvider.setSeenNotifications(this.id).then(
+      () => {
+        this.notifications.map((notification) => {
+          notification.seen = true;
+          return notification;
+        });
+        this.unSeenNotifications = 0;
+      }
+    );
+  }
+
+  fetchDriver() {
+    this.driverProvider.fetchDriverById().then(
+      (data) => {
+
+      }
+    )
+  }
 }

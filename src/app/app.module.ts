@@ -17,6 +17,7 @@ import { UserProvider } from '../providers/user/user';
 import { Push } from '@ionic-native/push';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { NotificationProvider } from '../providers/notification/notification';
+import { DriverProvider } from '../providers/driver/driver';
 const config: SocketIoConfig = { url: 'https://com-tms-5-1.herokuapp.com', options: {} };
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ const config: SocketIoConfig = { url: 'https://com-tms-5-1.herokuapp.com', optio
     UserProvider,
     TitleCasePipe,
     Push,
-    NotificationProvider
+    NotificationProvider,
+    DriverProvider
   ]
 })
 export class AppModule {}

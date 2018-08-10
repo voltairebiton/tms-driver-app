@@ -1,0 +1,41 @@
+<!--
+  Generated template for the NotificationPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start left>
+      <button ion-button icon-only (click)="close()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Notification</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list no-lines>
+    <ion-card *ngIf="warnings.length == 0 && notifications.length == 0">
+      <ion-card-content>
+        <span>You have no notifications</span>
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngFor="let notif of warnings; let i = index">
+      <ion-card-content>
+        <span *ngIf="notif.type == 'CDL'">{{ notif.body }}</span>
+        <span *ngIf="notif.type == 'drug_test'">{{ notif.body }}</span>
+        <span *ngIf="notif.type == 'physical'">{{ notif.body }}</span>
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngFor="let notif of notifications; let i = index">
+      <ion-card-content *ngFor="let notif of notifications; let i = index">
+        <span *ngIf="notif.type == 'comment'">{{ displayUserName(notif.from) }} has commented on order {{ notif.source_id }}</span>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

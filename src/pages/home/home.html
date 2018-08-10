@@ -6,6 +6,12 @@
     <ion-title>
       Orders
     </ion-title>
+    <ion-buttons end>
+        <button ion-button id="notification-button" class="button-notification" (click)="showNotification()">
+            <ion-icon name="notifications"></ion-icon>
+            <ion-badge id="notifications-badge" color="danger" *ngIf="unSeenNotifications">{{ unSeenNotifications }}</ion-badge>
+        </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
